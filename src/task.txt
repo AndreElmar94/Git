@@ -1,0 +1,150 @@
+Задание на знание GIT (всё выполняется в консоли)
+
+1. Создаём локальный репозиторий.
+	(git init)
+
+
+
+2. Добавляем в него GitTask.java и task.txt. Проверяем статус.
+ (git status)
+
+В каком статусе эти файлы?
+	(untracked)
+
+3. Добавляем task.txt в stage (запоминаем разные команды и чем они отличаются).
+	(git add task.txt)
+
+Проверяем статус. Коммитим task.txt.
+	(git status)
+	(git commit)
+
+Проверяем историю коммитов в master ветке (других веток быть не должно). Должен быть 1 коммит (хорошо подумать над названием :) )
+	git log
+
+4. Проверяем статус GitTask.java. Он должен остаться untracked.
+	Git status GitTask.java
+
+5. Добавляем какой-нибудьт текст в task.txt и проверяем статус 2х файлов.
+	(modified (изменённый) -> task,
+	untracked (неотслеживаемый) -> GitTask)
+
+Чем они отличаются. Проверяем изменения в task.txt (запоминаем команду)
+	(git diff).
+
+Коммитим изменения в task.txt. Проверяем историю коммитов. Сколько их?
+	git commit
+	(git log / git log --stat => 2 коммита)
+
+6. Делаем всё то же самое для GitTask.java.
+	(git add GitTask.java,
+	git status => staged => подготовленное)
+	git add GitTask.java
+	git commit
+
+Проверяем историю коммитов. Сколько их?
+	git log (история коммитов) = 3
+
+*****************************************************************************************
+	P.S
+	// а всякий случай:
+	// удалить из репозитория файл
+	// git rm GitTask.java -f => удалить
+	// вернуть обратно его:
+	// git reset HEAD GitTask.java
+	// git checkout -- GitTask.java
+*****************************************************************************************
+
+7. Добавляем скомпилированный GitTask.class и проверяем статус. Должен быть untracked.
+	// git status GitTask.class => untracked
+	// место папки target -> папка out
+
+8. Игнорируем все файлы с разрешением .class и .iml, папку idea и папку target со всем содержанием. Коммитим эти изменения. Проверяем статус GitTask.class. Этот файл больше не должен находиться под гитом, так как был заигнорирован.
+
+	 // в файле .gitignore
+	 // прописываем все файлы и папки :
+	 	.idea/
+		out/
+		*.iml
+		*.class
+	// и сам файл .gitignore выносим в коневую папку
+
+	// git status --ignored => проверяем
+
+9. Проверяем, сколько у нас веток и на какой находимся (1, master). Создаём новую ветку development на основе коммита, в котором мы вносили изменения в task.txt.
+	// git checkout <commit_id>
+	// git checkout 689bf79a
+	// git branch <newbranch>
+
+
+Проверяем, что мы на development бранче и что на ней только 2 коммита. Проверяем, какие ветки у нас есть.
+	git checkout development => переключились
+	git branch => какие ветки у нас есть
+	(* development
+	  master )
+	git log => показыавет 2 коммита
+
+10. Создаём новую ветку feature/update_txt-file на основе master бранчи. Проверяем, что мы на новой ветке и на ней те же коммиты, что и на master.
+	git checkout master => переключились на мастер
+	git log => 3 коммита
+	git branch feature/update_txt_file => новая ветка
+	git checkout feature/update_txt_file => переключились на неё
+	git log => 3 комми
+
+
+11. На feature/update_txt-file делаем изменения в task.txt и коммитим их.
+	git diff => Проверяем изменения
+<<<<<<< HEAD
+	git status
+	git add src/task.txt => добавили этот изм файл в нашу нов ветку
+	git status
+=======
+	git add src/task.txt => добавили этот изм файл в нашу нов ветку
+>>>>>>> integration
+	git commit
+
+
+12. Мержим feature/update_txt-file в master.
+	git checkout master => переключились на мастер
+	get merge feature/update_txt_file => слили из нов ветки коммиты в мастер
+
+Должно пройти без конфликтов. Проверяем, что в master появился коммит с feature/update_txt-file. Теперь можем удалить feature/update_txt-file ветку, так как изменения смержены в основную ветку.
+	git log => роверяем коммиты - 4
+	git branch -d feature/update_txt_file => удаляем эту ветку
+
+
+13. Создаём новую ветку на основе master. Делаем изменения в task.txt и делаем коммит.
+	git branch integration => создали нов ветку
+	git checkout integration => переключ на неё
+<<<<<<< HEAD
+	git status
+	git add src/task.txt
+	git status
+	git commit
+
+14. Переходим на master и делаем изменения в той же строчке task.txt, что и в шаге 13. Делаем коммит.
+	git checkout master
+	git add src/task.txt
+	git commit
+
+15. Мержим новую ветку в master.
+	git merge integration
+
+Должен получиться конфликт, так как гит не сможет понять сам, какие изменения (с master или новой бранчи) нужно выбрать. Нужно разрезолвить конфликт, проверить статус и сделать коммит. Обратите внимание на подсказку в консоли. Этот коммит можно не называть - гит обозначит его как мерж-коммит.
+	КОНФЛИКТ!!!
+	руками его пофиксили
+	git status
+	git add src/task.txt
+	git commit
+
+16. Оставляем только master, остальные ветки удаляем (помним, что нельзя пилить ветку, на которой сидишь).
+	git checkout master
+	git branch -d integration
+	git branch -d development
+
+17. Проверяем, удалились ли ветки. Смотрим историю коммитов на master.
+	git branch => какие ветки у нас есть
+	(*master)
+	git log
+
+18. Запушиваем локальные изменения на удалённый репозиторий.
+	git push
