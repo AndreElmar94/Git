@@ -3,8 +3,6 @@
 1. Создаём локальный репозиторий.
 	(git init)
 
-
-
 2. Добавляем в него GitTask.java и task.txt. Проверяем статус.
  (git status)
 
@@ -24,25 +22,25 @@
 4. Проверяем статус GitTask.java. Он должен остаться untracked.
 	Git status GitTask.java
 
-5. Добавляем какой-нибудьт текст в task.txt и проверяем статус 2х файлов.
-	(modified (изменённый) -> task,
-	untracked (неотслеживаемый) -> GitTask)
+5. Добавляем какой-нибудьт текст в task.txt и проверяем статус 2х файлов. Чем они отличаются.
+ 	(modified (изменённый) -> task,
+ 	untracked (неотслеживаемый) -> GitTask)
 
-Чем они отличаются. Проверяем изменения в task.txt (запоминаем команду)
+Проверяем изменения в task.txt
 	(git diff).
 
 Коммитим изменения в task.txt. Проверяем историю коммитов. Сколько их?
+	git add task.txt
 	git commit
 	(git log / git log --stat => 2 коммита)
 
 6. Делаем всё то же самое для GitTask.java.
-	(git add GitTask.java,
-	git status => staged => подготовленное)
-	git add GitTask.java
-	git commit
+ (git add GitTask.java,
+ git status => staged => подготовленное)
+ git commit
 
 Проверяем историю коммитов. Сколько их?
-	git log (история коммитов) = 3
+ git log (история коммитов) = 3
 
 *****************************************************************************************
 	P.S
@@ -54,11 +52,11 @@
 	// git checkout -- GitTask.java
 *****************************************************************************************
 
+Добавили изменеия в GitTask.java и скомпелировали. Появилась новая папка out/
 7. Добавляем скомпилированный GitTask.class и проверяем статус. Должен быть untracked.
-	// git status GitTask.class => untracked
-	// место папки target -> папка out
+ 	// git status GitTask.class => untracked
 
-8. Игнорируем все файлы с разрешением .class и .iml, папку idea и папку target со всем содержанием. Коммитим эти изменения. Проверяем статус GitTask.class. Этот файл больше не должен находиться под гитом, так как был заигнорирован.
+8. Игнорируем все файлы с разрешением .class и .iml, папку idea и папку target со всем содержанием.
 
 	 // в файле .gitignore
 	 // прописываем все файлы и папки :
@@ -67,14 +65,18 @@
 		*.iml
 		*.class
 	// и сам файл .gitignore выносим в коневую папку
-
 	// git status --ignored => проверяем
 
-9. Проверяем, сколько у нас веток и на какой находимся (1, master). Создаём новую ветку development на основе коммита, в котором мы вносили изменения в task.txt.
-	// git checkout <commit_id>
-	// git checkout 689bf79a
-	// git branch <newbranch>
+Коммитим эти изменения. Проверяем статус GitTask.class. Этот файл больше не должен находиться под гитом, так как был заигнорирован.
 
+	git add .gitignore
+	git add GitTask.java => он был изменён когда его скомпилировали
+	git commit
+
+9. Проверяем, сколько у нас веток и на какой находимся (1, master). Создаём новую ветку development на основе коммита, в котором мы вносили изменения в task.txt.
+	// git checkout <commit_id> =
+	// 				= 	git checkout 689bf79a
+	// git branch <newbranch>
 
 Проверяем, что мы на development бранче и что на ней только 2 коммита. Проверяем, какие ветки у нас есть.
 	git checkout development => переключились
@@ -84,24 +86,20 @@
 	git log => показыавет 2 коммита
 
 10. Создаём новую ветку feature/update_txt-file на основе master бранчи. Проверяем, что мы на новой ветке и на ней те же коммиты, что и на master.
-	git checkout master => переключились на мастер
-	git log => 3 коммита
-	git branch feature/update_txt_file => новая ветка
-	git checkout feature/update_txt_file => переключились на неё
-	git log => 3 комми
-
+ 	git checkout master => переключились на мастер
+	 git branch feature/update_txt_file => новая ветка
+ 	git checkout feature/update_txt_file => переключились на неё
+ 	git log => 4 комми
+ 	git checkout master => переключились на мастер
+ 	git log => 4 комми
 
 11. На feature/update_txt-file делаем изменения в task.txt и коммитим их.
+	Git checkout feature/update_txt_file
 	git diff => Проверяем изменения
-<<<<<<< HEAD
 	git status
 	git add src/task.txt => добавили этот изм файл в нашу нов ветку
 	git status
-=======
-	git add src/task.txt => добавили этот изм файл в нашу нов ветку
->>>>>>> integration
 	git commit
-
 
 12. Мержим feature/update_txt-file в master.
 	git checkout master => переключились на мастер
@@ -111,11 +109,9 @@
 	git log => роверяем коммиты - 4
 	git branch -d feature/update_txt_file => удаляем эту ветку
 
-
 13. Создаём новую ветку на основе master. Делаем изменения в task.txt и делаем коммит.
 	git branch integration => создали нов ветку
 	git checkout integration => переключ на неё
-<<<<<<< HEAD
 	git status
 	git add src/task.txt
 	git status
