@@ -102,28 +102,31 @@
 	git commit
 
 12. Мержим feature/update_txt-file в master.
-	git checkout master => переключились на мастер
-	get merge feature/update_txt_file => слили из нов ветки коммиты в мастер
+	 git checkout master => переключились на мастер
+ 	 git merge feature/update_txt_file => слили из нов ветки коммиты в мастер
 
 Должно пройти без конфликтов. Проверяем, что в master появился коммит с feature/update_txt-file. Теперь можем удалить feature/update_txt-file ветку, так как изменения смержены в основную ветку.
-	git log => роверяем коммиты - 4
+	git log => роверяем коммиты - 5
 	git branch -d feature/update_txt_file => удаляем эту ветку
 
-13. Создаём новую ветку на основе master. Делаем изменения в task.txt и делаем коммит.
+13. Создаём новую ветку на основе master.
 	git branch integration => создали нов ветку
 	git checkout integration => переключ на неё
+
+Делаем изменения в task.txt и делаем коммит.
 	git status
 	git add src/task.txt
 	git status
 	git commit
 
-14. Переходим на master и делаем изменения в той же строчке task.txt, что и в шаге 13. Делаем коммит.
-	git checkout master
-	git add src/task.txt
-	git commit
+14. Переходим на master
+ 	git checkout master
+и делаем изменения в task.txt, что и в шаге 13. Делаем коммит.
+ 	git add src/task.txt
+ 	git commit
 
 15. Мержим новую ветку в master.
-	git merge integration
+ 	git merge integration
 
 Должен получиться конфликт, так как гит не сможет понять сам, какие изменения (с master или новой бранчи) нужно выбрать. Нужно разрезолвить конфликт, проверить статус и сделать коммит. Обратите внимание на подсказку в консоли. Этот коммит можно не называть - гит обозначит его как мерж-коммит.
 	КОНФЛИКТ!!!
